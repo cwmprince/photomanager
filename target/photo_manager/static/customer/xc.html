@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>我的相册</h1>
+<table id="table" style="text-align: center">
+    <tr>
+        <td>相册编号</td>
+        <td>相册名</td>
+    </tr>
+</table>
+<button type="button" id="add">新建相册</button>
+<button type="button" id="back">返回</button>
+</body>
+
+<script src="./../js/jquery-3.6.0.js"></script>
+<script>
+    $.ajax({
+        url:"/xc/queryAll",
+        type:"get",
+        success:function (resp) {
+            for (var xc of resp){
+                var tr=$("<tr></tr>");
+                var td1=$("<td>"+xc.xc_id+"</td>");
+                var td2=$("<td>"+xc.xc_name+"</td>");
+                var td3=$("<td><a href='/static/customer/updatexc.html?xc_id="+xc.xc_id+"'>修改</a></td><b> </b><td><a href='/xc/delete?xc_id="+xc.xc_id+"'>删除</a></td>");
+                tr.append(td1);
+                tr.append(td2);
+                tr.append(td3);
+                $("#table").append(tr);
+            }
+        }
+    })
+
+    $("#add").click(function () {
+        location.href="/static/customer/addxc.html";
+    })
+
+    $("#back").click(function () {
+        location.href="/static/customer/photo.html";
+    })
+</script>
+</html>

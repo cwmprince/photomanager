@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="text-align: center">
+<h1>登录</h1>
+<span style="display: inline-block;line-height: 30px;height: 30px;width: 75px;text-align: left">用户名：</span><input type="text" name="username" id="username"><br>
+<span style="display: inline-block;line-height: 30px;height: 30px;width: 60px;text-align: left">密码：</span><input type="text" name="passwd" id="passwd"><br>
+<button type="button" id="button">登录</button>
+<a href="/static/register.html">注册</a>
+</body>
+<script src="js/jquery-3.6.0.js"></script>
+<script>
+    $("#button").click(function () {
+        var username=$("#username").val();
+        var passwd=$("#passwd").val();
+        $.ajax({
+            url:"/customer/login",
+            type:"get",
+            data:{username:username,passwd:passwd},
+            success:function (resp) {
+                if (resp=="ok"){
+                    alert("登录成功");
+                    location.href="/static/customer/photo.html?username="+username;
+                }
+            }
+        })
+    })
+
+</script>
+</html>

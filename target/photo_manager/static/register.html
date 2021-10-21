@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="text-align: center">
+<h1>注册</h1>
+用户名：<input type="text" name="username" id="username">
+密码：<input type="text" name="passwd" id="passwd">
+姓名：<input type="text" name="c_name" id="c_name">
+性别：<input type="text" name="c_sex" id="c_sex">
+电话：<input type="text" name="c_tel" id="c_tel">
+<button type="button" id="register">注册</button>
+</body>
+<script src="js/jquery-3.6.0.js"></script>
+<script>
+    $("#register").click(function () {
+        var username=$("#username").val();
+        var passwd=$("#passwd").val();
+        var c_name=$("#c_name").val();
+        var c_sex=$("#c_sex").val();
+        var c_tel=$("#c_tel").val();
+        $.ajax({
+            url:"/customer/register",
+            type:"post",
+            data:{username:username,passwd:passwd,c_name:c_name,c_sex:c_sex,c_tel:c_tel},
+            success:function (resp) {
+                if (resp=="register ok"){
+                    alert("注册成功");
+                    location.href="/static/login.html";
+                }
+            }
+        })
+    })
+</script>
+</html>

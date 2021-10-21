@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>你好,<b id="b">zhangsan</b></div>
+    <h1>我的照片</h1>
+    <table id="table" style="text-align: center">
+        <tr>
+            <td>照片编号</td>
+            <td>照片原始名</td>
+            <td>照片名</td>
+            <td>照片上传时间</td>
+            <td>用户编号</td>
+            <td>相册编号</td>
+            <td>操作</td>
+        </tr>
+    </table>
+    <button type="button" id="button">上传照片</button>
+    <button type="button" id="exit">退出登录</button>
+    <button type="button" id="xc">我的相册</button>
+</body>
+<script src="./../js/jquery-3.6.0.js"></script>
+<script src="./../js/jquery.cookie.js"></script>
+<script>
+    // var username=sessionStorage.getItem("username");
+    // $.cookie("a","a");
+    // function GetRequest() {
+    //     var url = location.search; //获取url中"?"符后的字串
+    //     var theRequest = new Object();
+    //     if (url.indexOf("?") != -1) {
+    //         var str = url.substr(1);
+    //         strs = str.split("&");
+    //         for (var i = 0; i < strs.length; i++) {
+    //             theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+    //         }
+    //     }
+    //     return theRequest;
+    // }
+    // var username=GetRequest().username;
+    // $("#b").html(username);
+    // alert(username);
+
+    $.ajax({
+        url:"/photo/findAllPhoto",
+        type:"get",
+        success:function (resp) {
+            for (var photo of resp){
+                var tr=$("<tr></tr>");
+                var td1=$("<td>"+photo.p_id+"</td>");
+                var td2=$("<td>"+photo.o_name+"</td>");
+                var td3=$("<td>"+photo.u_name+"</td>");
+                var td4=$("<td>"+photo.u_date+"</td>");
+                var td5=$("<td>"+photo.customer.c_id+"</td>");
+                var td6=$("<td>"+photo.xc.xc_id+"</td>");
+                var td7=$("<td><a href='/photo/findPhoto?p_id="+photo.p_id+"'>查看</a><b> </b><a href='/photo/deletePhoto?p_id="+photo.p_id+"'>删除</a></td>");
+                tr.append(td1);
+                tr.append(td2);
+                tr.append(td3);
+                tr.append(td4);
+                tr.append(td5);
+                tr.append(td6);
+                tr.append(td7);
+                $("#table").append(tr);
+            }
+        }
+    })
+
+    $("#button").click(function () {
+        location.href="/static/customer/upload.html";
+    })
+
+    $("#exit").click(function () {
+        $.ajax({
+            url: "/customer/exit",
+            type: "get",
+            success:function () {
+                location.href="/static/login.html";
+            }
+        })
+    })
+
+    $("#xc").click(function () {
+        location.href="/static/customer/xc.html";
+    })
+</script>
+</html>

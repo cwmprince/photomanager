@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--    头像：<input type="file" id="tx" name="tx">-->
+<!--    <button type="button" id="buton">上传</button>-->
+<form enctype="multipart/form-data" method="post" id="form">
+    头像：<input type="file" id="photo" name="photo">
+    <input type="text" name="xc_name">
+    <button type="button" id="buton">上传</button>
+</form>
+</body>
+<script src="js/jquery-3.6.0.js"></script>
+<script src="js/jquery.form.js"></script>
+<script>
+    // $("#buton").click(function () {
+    //     var files=$("#tx").prop("files")
+    //     var data=new FormData();
+    //     data.append("tx",files[0]);
+    //     $.ajax({
+    //         url:"/fileUpload",
+    //         type:"post",
+    //         data:data,
+    //         cache:false,
+    //         processData:false,
+    //         contentType:false,
+    //         success:function (resp) {
+    //             alert(resp);
+    //         }
+    //     })
+    // });
+    $("#buton").click(function () {
+        $("#form").ajaxSubmit({
+            type:"post",
+            url:"/photo/upload",
+            success:function (resp) {
+                alert(resp);
+            }
+        })
+    })
+</script>
+</html>

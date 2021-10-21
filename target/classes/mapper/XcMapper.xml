@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hs.mapper.XcMapper">
+
+    <insert id="addXc" parameterType="Xc">
+        insert into xc value (null ,#{xc_name})
+    </insert>
+
+    <update id="updateXc" parameterType="Xc">
+        update xc set xc_name=#{xc_name} where xc_id=#{xc_id}
+    </update>
+
+    <delete id="deleteXc" parameterType="String">
+        delete from xc where xc_id=#{xc_id}
+    </delete>
+
+<!--    <select id="selectAllXc" parameterType="String" resultType="Xc">-->
+<!--        select * from xc where username=#{username}-->
+<!--    </select>-->
+
+    <select id="selectXcByXcid" parameterType="int" resultType="Xc">
+        select * from xc where xc_id=#{xc_id}
+    </select>
+
+    <select id="selectXcByXcname" parameterType="String" resultType="Xc">
+        select * from xc where xc_name=#{xc_name}
+    </select>
+
+    <select id="selectAllXc" resultType="Xc">
+        select * from xc;
+    </select>
+</mapper>
+

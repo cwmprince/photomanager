@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="text-align: center">
+<h1>修改相册</h1>
+相册名：<input type="text" name="xc_name" id="xc_name">
+<button type="button" id="update">修改</button>
+</body>
+<script src="./../js/jquery-3.6.0.js"></script>
+<script>
+
+    var username=sessionStorage.getItem("xc_id");
+    function GetRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+
+    var xc_id=GetRequest().xc_id;
+
+    $.ajax({
+        url:"/xc/findXcByXcid",
+        type: "get",
+        data: {xc_id:xc_id},
+        success:function (resp) {
+            $("#xc_name").val(resp.xc_name);
+        }
+    })
+
+    $("#update").click(function () {
+        var xc_name=$("#xc_name").val();
+        $.ajax({
+            url:"/xc/update",
+            type:"put",
+            data:{xc_id:xc_id,xc_name:xc_name},
+            success:function (resp) {
+                if (resp=="update ok"){
+                    alert("修改成功");
+                    location.href="/static/customer/xc.html";
+                }
+            }
+        })
+    })
+</script>
+</html>

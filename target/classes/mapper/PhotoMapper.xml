@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hs.mapper.PhotoMapper">
+
+    <resultMap id="px" type="Photo">
+        <id column="p_id" property="p_id"></id>
+        <result column="o_name" property="o_name"></result>
+        <result column="u_name" property="u_name"></result>
+        <result column="u_date" property="u_date"></result>
+        <association column="c_id" property="customer" javaType="Customer" select=
+                "com.hs.mapper.CustomerMapper.selectCustomerByCid"></association>
+        <association column="xc_id" property="xc" javaType="Xc" select=
+                "com.hs.mapper.XcMapper.selectXcByXcid"></association>
+    </resultMap>
+
+    <insert id="insertPhoto" parameterType="Photo1">
+        insert into photo value (null,#{o_name},#{u_name},#{u_date},#{c_id},#{xc_id})
+    </insert>
+
+    <select id="selectAllPhoto" parameterType="int" resultMap="px">
+        select * from photo where c_id=#{c_id}
+    </select>
+
+    <select id="selectPhotoByUname" parameterType="String" resultType="Photo1">
+        select * from photo where u_name=#{u_name}
+    </select>
+
+    <select id="selectPhotoByPid" parameterType="int" resultMap="px">
+        select * from photo where p_id=#{p_id}
+    </select>
+
+    <delete id="deletePhoto" parameterType="int">
+        delete from photo where p_id=#{p_id}
+    </delete>
+
+    <update id="updatePhoto" parameterType="int">
+        update photo set xc_id=#{arg1} where p_id=#{arg0}
+    </update>
+
+    <select id="selectPhotoByXc_id" parameterType="int" resultMap="px">
+        select * from photo where xc_id=#{xc_id}
+    </select>
+
+    <select id="selectPhotoByCid" parameterType="int" resultMap="px">
+        select * from photo where c_id=#{c_id}
+    </select>
+</mapper>
+

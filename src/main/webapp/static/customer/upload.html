@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--    头像：<input type="file" id="tx" name="tx">-->
+<!--    <button type="button" id="buton">上传</button>-->
+<div>
+    <form enctype="multipart/form-data" method="post" id="form">
+        请选择要上传的照片：<input type="file" id="photo" name="photo">
+        <input type="hidden" name="xc_name" class="input1">
+    </form>
+</div>
+
+<input type="button" id="add1" value="+">
+
+<div id="first" style="display: none">
+    <form enctype="multipart/form-data" method="post" id="form1">
+        请选择要上传的照片：<input type="file" id="photo1" name="photo">
+        <input type="hidden" name="xc_name" class="input1">
+    </form>
+    <input type="button" id="add2" value="+">
+</div>
+
+<div id="second" style="display: none">
+    <form enctype="multipart/form-data" method="post" id="form2">
+        请选择要上传的照片：<input type="file" id="photo12" name="photo">
+        <input type="hidden" name="xc_name" class="input1">
+    </form>
+    <input type="button" id="add3" value="+">
+</div>
+
+<div id="third" style="display: none">
+    <form enctype="multipart/form-data" method="post" id="form3">
+        请选择要上传的照片：<input type="file" id="photo3" name="photo">
+        <input type="hidden" name="xc_name" class="input1">
+    </form>
+    <input type="button" id="add4" value="+">
+</div>
+
+<div id="fourth" style="display: none">
+    <form enctype="multipart/form-data" method="post" id="form4">
+        请选择要上传的照片：<input type="file" id="photo4" name="photo">
+        <input type="hidden" name="xc_name" class="input1">
+    </form>
+    <input type="button" id="add5" value="+">
+</div>
+
+
+请选择要上传的相册：
+<select id="xc" name="xc_name">
+</select>
+
+
+
+<button type="button" id="buton">上传</button>
+
+</body>
+<script src="./../js/jquery-3.6.0.js"></script>
+<script src="./../js/jquery.form.js"></script>
+<script>
+
+    $.ajax({
+        url: "/xc/queryAll",
+        type: "get",
+        success:function (resp) {
+            for (var xc of resp){
+                if (xc.xc_name!="回收站"&&xc.xc_name!="默认文件夹"){
+                    var option1=$("<option>"+xc.xc_name+"</option>");
+                    $("#xc").append(option1);
+                }
+            }
+        }
+    })
+
+    $("#add1").click(function () {
+        $("#add1").hide();
+        $("#first").css("display","block");
+    })
+
+    $("#add2").click(function () {
+        $("#add2").hide();
+        $("#second").css("display","block");
+    })
+
+    $("#add3").click(function () {
+        $("#add3").hide();
+        $("#third").css("display","block");
+    })
+
+    $("#add4").click(function () {
+        $("#add4").hide();
+        $("#fourth").css("display","block");
+    })
+
+    $("#add5").click(function () {
+        alert("一次最多只能上传5张图片！！")
+    })
+
+    $("#buton").click(function () {
+        var select=$("select[id='xc']").val();
+        $(".input1").val(select);
+        if ($("#first").css("display")=="block"){
+            if ($("#second").css("display")=="block"){
+                if ($("#third").css("display")=="block"){
+                    if ($("#fourth").css("display")=="block"){
+                        $("#form").ajaxSubmit({
+                            type:"post",
+                            url:"/photo/upload",
+                        })
+                        $("#form1").ajaxSubmit({
+                            type:"post",
+                            url:"/photo/upload",
+                        })
+                        $("#form2").ajaxSubmit({
+                            type:"post",
+                            url:"/photo/upload",
+                        })
+                        $("#form3").ajaxSubmit({
+                            type:"post",
+                            url:"/photo/upload",
+                        })
+                        $("#form4").ajaxSubmit({
+                            type:"post",
+                            url:"/photo/upload",
+                            success:function (resp) {
+                                alert("上传成功");
+                                location.href="/static/customer/photo.html";
+                            }
+                        })
+                    }else {
+                        $("#form").ajaxSubmit({
+                            type:"post",
+                            url:"/photo/upload",
+                        })
+                        $("#form1").ajaxSubmit({
+                            type:"post",
+                            url:"/photo/upload",
+                        })
+                        $("#form2").ajaxSubmit({
+                            type:"post",
+                            url:"/photo/upload",
+                        })
+                        $("#form3").ajaxSubmit({
+                            type:"post",
+                            url:"/photo/upload",
+                            success:function (resp) {
+                                alert("上传成功");
+                                location.href="/static/customer/photo.html";
+                            }
+                        })
+                    }
+                }else {
+                    $("#form").ajaxSubmit({
+                        type:"post",
+                        url:"/photo/upload",
+                    })
+                    $("#form1").ajaxSubmit({
+                        type:"post",
+                        url:"/photo/upload",
+                    })
+                    $("#form2").ajaxSubmit({
+                        type:"post",
+                        url:"/photo/upload",
+                        success:function (resp) {
+                            alert("上传成功");
+                            location.href="/static/customer/photo.html";
+                        }
+                    })
+                }
+            }else {
+                $("#form").ajaxSubmit({
+                    type:"post",
+                    url:"/photo/upload",
+                })
+                $("#form1").ajaxSubmit({
+                    type:"post",
+                    url:"/photo/upload",
+                    success:function (resp) {
+                        alert("上传成功");
+                        location.href="/static/customer/photo.html";
+                    }
+                })
+            }
+        }
+        else {
+            $("#form").ajaxSubmit({
+                type:"post",
+                url:"/photo/upload",
+                success:function (resp) {
+                    alert("上传成功");
+                    location.href="/static/customer/photo.html";
+                }
+            })
+        }
+
+    })
+</script>
+</html>
